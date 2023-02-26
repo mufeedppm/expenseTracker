@@ -13,13 +13,19 @@ async function userLogin(e){
             password: password.value
             
         }
-         axios.post("http://localhost:3000/user/login",obj)
-        if(response.data.errors[0].message===''){
-            alert('User already exists')
-        }
-        console.log(response);
+         const response = await axios.post("http://localhost:3000/user/login",obj)
+        
+         console.log(response.status)
+         if(response.status===201){
+            alert('User Login Successful')
+         }
+
+        //  console.log(response.headers)
+        
     }catch(err){
-        console.log(err)
+        
+        console.log(err
+            )
     }
 
 }
