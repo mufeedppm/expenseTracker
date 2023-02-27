@@ -6,6 +6,9 @@ const cors = require('cors')
 
 const app = express();
 
+const User = require('./models/userModel')
+const Expense = require('./models/expenseModel')
+
 app.use(cors());
 
 app.use(bodyParser.json({extended: false}))
@@ -16,11 +19,19 @@ const signUpRoutes = require('./routes/signUpRoutes')
 
 const loginRoutes =  require('./routes/loginRoutes')
 
+const expenseRoutes = require('./routes/expenseRoutes')
+
 app.use('/user',signUpRoutes);
 
 app.use('/user',loginRoutes)
 
-sequelize.sync()
+app.use('/expense',expenseRoutes)
+
+Expense.belongsTo(User)
+User.hasMany(Expense);
+
+
+sequelize.sync({})
 .then(()=>{
     app.listen(3000)
 
