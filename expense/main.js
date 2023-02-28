@@ -14,7 +14,8 @@ let description =document.getElementById('description')
 
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
-        let getReq =await axios.get("http://localhost:3000/expense")
+        const token = localStorage.getItem('token')
+        let getReq =await axios.get("http://localhost:3000/expense", {headers: {'Authorization': token}})
 
         console.log(getReq)
         for(let i=0;i<getReq.data.expenseData.length;i++){
@@ -43,8 +44,9 @@ async function addExpense(e){
         }
         
         else{
-            console.log(item)
-            let postReq= await axios.post("http://localhost:3000/expense/addExpense",obj)
+            const token = localStorage.getItem('token')
+            let postReq= await axios.post("http://localhost:3000/expense/addExpense",obj, {headers: {'Authorization': token}})
+            
             console.log(postReq)
             displayExpense(postReq.data.expenseData)
             expense.value=''
