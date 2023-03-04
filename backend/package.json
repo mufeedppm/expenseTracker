@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "dotenv": "^16.0.3",
     "nodemon": "^2.0.20"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
     "express-handlebars": "^6.0.7",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.1.2",
+    "razorpay": "^2.8.6",
     "sequelize": "^6.29.0"
   }
 }

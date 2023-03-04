@@ -1,4 +1,4 @@
-.btn-prod{
+.btn-right{
     float: right;
 }
 body{
@@ -16,6 +16,6 @@ body{
 }
 
 
-.btn:active{
-    background-color: rgb(48, 53, 53)
+.btn-prm{
+    margin: 10px;
 }

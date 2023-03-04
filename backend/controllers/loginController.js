@@ -42,7 +42,3 @@ exports.postLoginUser =async (req,res,next) => {
     }
     
 }   
-
-exports.getExpensePage = (req,res) =>{
-    
-}
