@@ -44,7 +44,7 @@ User.hasMany(Expense);
 Order.belongsTo(User)
 User.hasMany(Order);
 
-sequelize.sync()
+sequelize.sync({})
 .then(()=>{
     app.listen(3000)
 

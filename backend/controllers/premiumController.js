@@ -8,7 +8,7 @@ exports.getLeaderBoard = async(req,res) =>{
     
     
     const userDetails = await User.findAll({
-        attributes:['id', 'name', [sequelize.fn('sum',sequelize.col('expense')), 'totalExpense']],
+        attributes:['id', 'name', 'totalExpense'],
         include: [
             {
                 model: Expense,

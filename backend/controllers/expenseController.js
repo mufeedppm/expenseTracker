@@ -23,6 +23,7 @@ exports.postAddExpense = async (req,res) => {
     const expense = req.body.expense;
     const category = req.body.category;
     const description = req.body.description
+    
 
     if(item==''|| expense=='' || category=='' || description==''){
         res.json({message:'Please Enter All Fields'})
@@ -32,9 +33,14 @@ exports.postAddExpense = async (req,res) => {
             item: item,
             expense: expense,
             category: category,
-            description: description,
-            
+            description: description,    
         })
+        if(!req.user.totalExpense){
+            req.user.totalExpense=0
+        }
+        let expenseSum = parseInt(req.user.totalExpense)+parseInt(expense) 
+        await req.user.update({totalExpense: expenseSum})
+
         return res.status(200).json({expenseData: data})
     }
     }catch(err){
@@ -45,9 +51,19 @@ exports.postAddExpense = async (req,res) => {
 
 exports.deleteExpense = async (req,res) =>{
     try{
+        // const expId = req.params.id
+        // const resp = await Expense.destroy({where:{id:expId}})
+        // req.user.update({totalExpense:})
+        // res.json({response:resp})
+         
         const expId = req.params.id
-        const resp = await Expense.destroy({where:{id:expId}})
-        res.json({response:resp})
+        const resp = await Expense.findAll({where:{id:expId}})
+        const response = await Expense.destroy({where:{id:expId}})
+        const user = await User.findOne({where:{id: resp[0].userId}})
+        
+        const expenseSum = parseInt(user.totalExpense)-parseInt(resp[0].expense)
+        user.update({totalExpense: expenseSum})
+        res.json({response:response})
     }catch(err){
         console.log(err)
     }

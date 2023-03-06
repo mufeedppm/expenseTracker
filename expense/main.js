@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded',async ()=>{
             // document.getElementById('myForm').innerHTML+="<br><br>You are a Premium user <button class='leaderBoard btn-right' id='leaderBoard'>Leaderboard</button> "
             document.getElementById('rzp-btn1').style.display='none';
         }
-        console.log(getReq)
+        // console.log(getReq)
         for(let i=0;i<getReq.data.expenseData.length;i++){
 
             displayExpense(getReq.data.expenseData[i])  
@@ -46,7 +46,7 @@ async function addExpense(e){
             category: category.value,
             description: description.value
         }
-        console.log(obj)
+        // console.log(obj)
         
         // if(expense.value=='' || item.value=='' || category.value=='' || description.value==''){
         //     alert("Please enter all fields")
@@ -58,7 +58,7 @@ async function addExpense(e){
             if(postReq.data.message){
                 alert(postReq.data.message)
             }
-            console.log(postReq)
+            // console.log(postReq)
             displayExpense(postReq.data.expenseData)
             expense.value=''
             item.value=''
@@ -131,7 +131,7 @@ async function editExpense(obj){
             await axios.delete(`http://localhost:3000/expense/deleteExpense/${obj.id}`)
             
             const child=document.getElementById(obj.id)
-            console.log(child)
+            // console.log(child)
                 console.log(child.parentElement)
                 expenseList.removeChild(child)
                 // let objNew={
@@ -154,12 +154,14 @@ async function editExpense(obj){
 async function deleteExpense(key){
     try{
         if(confirm("Press OK to confirm delete")){
-
-            let resource=await axios.delete(`http://localhost:3000/expense/deleteExpense/${key}`)
-
+            const token = localStorage.getItem('token')
+            const delReq = await axios.delete(`http://localhost:3000/expense/deleteExpense/${key}`,{headers: {'Authorization': token}})
+                
+                console.log(delReq)
+                
                 const child=document.getElementById(key)
-                console.log(child)
-                console.log(child.parentElement)
+                // console.log(child)
+                // console.log(child.parentElement)
                 expenseList.removeChild(child)
             }
 
@@ -181,7 +183,7 @@ leaderBtn.onclick =async function leaderBoard() {
     try{
         const token = localStorage.getItem('token')
         const resp =await axios.get('http://localhost:3000/premium/leaderboard', {headers: {'Authorization': token}})
-        console.log(resp.data[0].name)
+        // console.log(resp.data[0].name)
         document.getElementById('myForm').innerHTML+='<br><br><ul id="lBoard"><h4>Leaderboard</h4></ul>'
         const lboard=document.getElementById('lBoard')
         
@@ -215,7 +217,8 @@ document.getElementById('rzp-btn1').onclick = async function(e) {
             orderId: options.orderId,
             payment_id: response.razorpay_payment_id,
         },{headers: {'Authorization': token}})
-        document.getElementById('myForm').innerHTML+="<br><br>You are a Premium user <button class='leaderBoard' id='leaderBoard'>Leaderboard</button> " 
+        document.getElementById('myForm').innerHTML+="<br><br>You are a Premium user "
+        document.getElementById('myForm').appendChild(leaderBtn) 
         
         document.getElementById('rzp-btn1').style.display='none';
 
