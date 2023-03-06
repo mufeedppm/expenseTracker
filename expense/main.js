@@ -188,6 +188,9 @@ leaderBtn.onclick =async function leaderBoard() {
 
         for(let i=0;i<resp.data.length;i++){
             let li=document.createElement('li')
+            if(!resp.data[i].totalExpense){
+                resp.data[i].totalExpense=0;
+            }
             li.appendChild(document.createTextNode(`Name: ${resp.data[i].name}  Expense: ${resp.data[i].totalExpense} `));
             lboard.appendChild(li);
             
