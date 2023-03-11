@@ -8,7 +8,7 @@ async function forgotPassword(e){
             email:email.value
         }
        
-        const token = localStorage.getItem('token')
+        
         const data = await axios.post('http://localhost:3000/password/forgotpassword',obj)
         console.log(data)
 
