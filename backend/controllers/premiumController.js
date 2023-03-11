@@ -20,7 +20,7 @@ exports.getLeaderBoard = async(req,res) =>{
     })
     
    
-
+    console.log(userDetails)
     res.status(200).json(userDetails)
     
     

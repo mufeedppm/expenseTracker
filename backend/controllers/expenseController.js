@@ -100,10 +100,10 @@ exports.deleteExpense = async (req,res) =>{
         })
         
         const response = await Expense.destroy({where:{id:expId},transaction: t})
-        const user = await User.findOne({where:{id:resp[0].userId},transaction: t})
+        const user = await User.findOne({where:{id:resp.userId},transaction: t})
         console.log(user)
-        const expenseSum = Number(user[0].totalExpense)-Number(resp[0].expense)
-        await User.update({totalExpense: expenseSum},{where:{id:resp[0].userId},transaction: t})
+        const expenseSum = Number(user.totalExpense)-Number(resp.expense)
+        await User.update({totalExpense: expenseSum},{where:{id:resp.userId},transaction: t})
         await t.commit()
         res.json({response:response})
     }catch(err){
