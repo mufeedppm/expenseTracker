@@ -12,6 +12,7 @@ const User = require('./models/userModel')
 const Expense = require('./models/expenseModel')
 const Order = require('./models/orderModel')
 const ForgotPass =require('./models/forgotPassModel')
+const History =require('./models/reportModel')
 
 app.use(cors());
 
@@ -53,6 +54,9 @@ User.hasMany(Order);
 
 ForgotPass.belongsTo(User)
 User.hasMany(ForgotPass);
+
+History.belongsTo(User)
+User.hasMany(History);
 
 sequelize.sync()
 .then(()=>{

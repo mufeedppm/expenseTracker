@@ -19,6 +19,8 @@ window.addEventListener('DOMContentLoaded',async ()=>{
             document.getElementById('myForm').appendChild(leaderBtn)
             document.getElementById('rzp-btn1').style.display='none';
             document.getElementById('myForm').appendChild(reportBtn)
+            
+            
         }
         // console.log(getReq)
         for(let i=0;i<getReq.data.expenseData.length;i++){
@@ -83,7 +85,7 @@ async function displayExpense(obj){
         
         li.id=obj.id
 
-        console.log(li)
+        
         
         const editBtn=document.createElement('button')
         
@@ -131,16 +133,8 @@ async function editExpense(obj){
             await axios.delete(`http://localhost:3000/expense/deleteExpense/${obj.id}`)
             
             const child=document.getElementById(obj.id)
-            // console.log(child)
-                console.log(child.parentElement)
-                expenseList.removeChild(child)
-                // let objNew={
-            //     product:product.value,
-            //     price:price.value,
-            //     category:category.value
-            // }
-
-            
+                
+            expenseList.removeChild(child)
 
             console.log("Expense editted successfully")
             
@@ -151,6 +145,7 @@ async function editExpense(obj){
     
 }
 
+
 async function deleteExpense(key){
     try{
         if(confirm("Press OK to confirm delete")){
@@ -160,8 +155,7 @@ async function deleteExpense(key){
                 console.log(delReq)
                 
                 const child=document.getElementById(key)
-                // console.log(child)
-                // console.log(child.parentElement)
+            
                 expenseList.removeChild(child)
             }
 
@@ -253,6 +247,12 @@ rzp1.on('payment.failed',async function(){
 
 }
 
+function displayDownloadHistory(data) {
+    document.getElementById('myForm').innerHTML+=`<br><br>Download History <br><hr> `
+    for(let i=0;i<data.length;i++){
+        document.getElementById('myForm').innerHTML+=` <br>url:<a href=${data[i].url}> report${i+1}</a> <br> Dowloaded at ${data[i].createdAt}<br><br> <hr>`
+    }
+}
 const reportBtn = document.createElement('button') 
 reportBtn.type='button'   
 reportBtn.id='report'
@@ -264,9 +264,11 @@ reportBtn.onclick = async function expenseReport(){
     try{
         
         const response = await axios.get('http://localhost:3000/expense/download', { headers: {"Authorization" : token} })
-        if(response.status==201){
+        if(response.status==200){
+            console.log('resp',response)
+            displayDownloadHistory(response.data.downloaded)
             const a = document.createElement("a");
-            a.href = response.data.fileUrl;
+            a.href = response.data.fileURL;
             a.download = 'myexpense.csv';
             a.click();
         }else{
