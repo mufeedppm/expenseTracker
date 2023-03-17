@@ -14,8 +14,9 @@ body{
 .edit-btn:hover{
     background-color: rgb(48, 53, 53);
 }
-
-
+.centered{
+    text-align: center;
+}
 .btn-prm{
     margin: 10px;
 }
