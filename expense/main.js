@@ -7,7 +7,9 @@ const expenseList=document.getElementById('expenseList');
 
 const token = localStorage.getItem('token')
 
+const itemsPerPage = document.getElementById("itemsPerPage");
 
+itemsPerPage.addEventListener('click',getExpense);
 
 
 
@@ -15,7 +17,7 @@ const token = localStorage.getItem('token')
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
         let page=1
-        let getReq =await axios.get(`http://localhost:3000/expense?page=${page}`, {headers: {'Authorization': token}})
+        let getReq =await axios.get(`http://localhost:3000/expense?page=${page}&items=${itemsPerPage.value}`, {headers: {'Authorization': token}})
         if(getReq.data.premium){
             document.getElementById('myForm').innerHTML+="<br><br>You are a Premium user "
             document.getElementById('myForm').appendChild(leaderBtn)
@@ -24,7 +26,7 @@ window.addEventListener('DOMContentLoaded',async ()=>{
         }
         
         const pageData = getReq.data
-       
+        
         // console.log(getReq)
          pagination(pageData)
          
@@ -37,14 +39,15 @@ window.addEventListener('DOMContentLoaded',async ()=>{
         console.log("Something went wrong CODE:ERR DOM_CONT_LOADED")
     }
 })
-async function getProducts(page){
+async function getExpense(page){
     try{
-        let getReq =await axios.get(`http://localhost:3000/expense?page=${page}`, {headers: {'Authorization': token}})
+        let getReq =await axios.get(`http://localhost:3000/expense?page=${page}&items=${itemsPerPage.value}`, {headers: {'Authorization': token}})
         const pageData = getReq.data;
         console.log(pageData)
+        expenseCount= pageData.length;
         pagination(pageData);
     }catch(err){
-        console.log("ERR in getProducts main.js_expense ",err)
+        console.log("ERR in getExpense main.js_expense ",err)
         throw new Error(err);
     }
     
@@ -58,7 +61,7 @@ function pagination(obj){
         const btnPrev= document.createElement('button');
         btnPrev.type= "button";
         btnPrev.innerHTML= obj.prevPage;
-        btnPrev.addEventListener('click',()=>getProducts(obj.prevPage))
+        btnPrev.addEventListener('click',()=>getExpense(obj.prevPage))
         pagination.appendChild(btnPrev)
     }
     const btn= document.createElement('button');
@@ -74,14 +77,14 @@ function pagination(obj){
         const btnNext= document.createElement('button');
         btnNext.type= "button";
         btnNext.innerHTML= obj.nextPage;
-        btnNext.addEventListener('click',()=>getProducts(obj.nextPage))
+        btnNext.addEventListener('click',()=>getExpense(obj.nextPage))
         pagination.appendChild(btnNext) 
     }
     if(obj.lastPage!=obj.currentPage){
         const lastbtn = document.createElement('button');
         lastbtn.type = 'button';
         lastbtn.innerHTML= '>>'
-        lastbtn.addEventListener('click',()=>getProducts(obj.lastPage))
+        lastbtn.addEventListener('click',()=>getExpense(obj.lastPage))
         pagination.appendChild(lastbtn)
 
     }
@@ -115,8 +118,11 @@ async function addExpense(e){
             if(postReq.data.message){
                 alert(postReq.data.message)
             }
-            // console.log(postReq)
-            displayExpense(postReq.data.expenseData)
+            console.log(postReq)
+            
+
+                displayExpense(postReq.data.expenseData)
+            
             expense.value=''
             item.value=''
             category.value=''
