@@ -10,7 +10,10 @@ async function forgotPassword(e){
        
         
         const data = await axios.post('http://localhost:3000/password/forgotpassword',obj)
-        console.log(data)
+        if(data.status==200){
+            alert("Reset link sent to registered email");
+            email.value='';
+        }
 
     }catch(err){
         console.log(err)

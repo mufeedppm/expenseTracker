@@ -14,6 +14,8 @@ itemsPerPage.addEventListener('click',getExpense);
 
 
 
+
+
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
         let page=1
@@ -28,8 +30,10 @@ window.addEventListener('DOMContentLoaded',async ()=>{
         const pageData = getReq.data
         
         // console.log(getReq)
-         pagination(pageData)
+        pagination(pageData)
+        
          
+        
         // for(let i=0;i<getReq.data.expenseData.length;i++){
 
         //     displayExpense(getReq.data.expenseData[i])  
@@ -64,15 +68,19 @@ function pagination(obj){
         btnPrev.addEventListener('click',()=>getExpense(obj.prevPage))
         pagination.appendChild(btnPrev)
     }
-    const btn= document.createElement('button');
-    btn.type= "button";
-    btn.innerHTML= `<h3>${obj.currentPage}</h3>`
-    expenseList.innerHTML='';
-    for(let i=0;i<obj.expenseData.length;i++){
-        displayExpense(obj.expenseData[i])
-    }
-    console.log(obj.expenseData)
-    pagination.appendChild(btn)
+    
+
+        const btn= document.createElement('button');
+        btn.type= "button";
+        // btn.classList="footer";
+        btn.innerHTML= `<h3>${obj.currentPage}</h3>`
+        expenseList.innerHTML='';
+        for(let i=0;i<obj.expenseData.length;i++){
+            displayExpense(obj.expenseData[i])
+        }
+        console.log(obj.expenseData)
+        pagination.appendChild(btn)
+    
     if(obj.hasNextPage){
         const btnNext= document.createElement('button');
         btnNext.type= "button";
@@ -80,7 +88,7 @@ function pagination(obj){
         btnNext.addEventListener('click',()=>getExpense(obj.nextPage))
         pagination.appendChild(btnNext) 
     }
-    if(obj.lastPage!=obj.currentPage){
+    if(obj.lastPage!=obj.currentPage && obj.hasNextPage){
         const lastbtn = document.createElement('button');
         lastbtn.type = 'button';
         lastbtn.innerHTML= '>>'
@@ -120,8 +128,14 @@ async function addExpense(e){
             }
             console.log(postReq)
             
-
+            if(itemsPerPage.value>(expenseList.children.length)){
                 displayExpense(postReq.data.expenseData)
+
+            }
+            // else if(itemsPerPage>=expenseList.children.length){
+                
+            //     console.log(document.getElementById('pagination'))
+            // }
             
             expense.value=''
             item.value=''
@@ -239,7 +253,7 @@ leaderBtn.onclick =async function leaderBoard() {
        
         const resp =await axios.get('http://localhost:3000/premium/leaderboard', {headers: {'Authorization': token}})
         // console.log(resp.data[0].name)
-        document.getElementById('myForm').innerHTML+='<br><br><ul id="lBoard"><h4>Leaderboard</h4></ul>'
+        document.getElementById('myForm').innerHTML+='<br><br><ol id="lBoard"><h4>Leaderboard</h4></ol>'
         const lboard=document.getElementById('lBoard')
         
 
@@ -265,16 +279,19 @@ document.getElementById('rzp-btn1').onclick = async function(e) {
  try{
     
     let response = await axios.get("http://localhost:3000/purchase/premium", {headers: {'Authorization': token}})
+    console.log("RazorPAY",response)
     let options = {
     "key": response.data.key_id,
     "orderId": response.data.order.id,
+    "amount":response.data.order.amount,
     "handler": async function(response) {
         await axios.post("http://localhost:3000/purchase/update-transaction",{
             orderId: options.orderId,
             payment_id: response.razorpay_payment_id,
         },{headers: {'Authorization': token}})
         document.getElementById('myForm').innerHTML+="<br><br>You are a Premium user "
-        document.getElementById('myForm').appendChild(leaderBtn) 
+        document.getElementById('myForm').appendChild(leaderBtn) ;
+        document.getElementById('myForm').appendChild(reportBtn) ;
         
         document.getElementById('rzp-btn1').style.display='none';
 

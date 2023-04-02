@@ -1,10 +1,22 @@
+
+require('dotenv').config();
 const bodyParser = require('body-parser')
+
+// const https = require('https');
+
+const path = require('path');
+
+const fs = require('fs');
+
+const morgan = require('morgan');
 
 const express = require('express')
 
-const cors = require('cors')
+const cors = require('cors');
 
-require('dotenv').config();
+const helmet = require("helmet");
+
+
 
 const app = express();
 
@@ -14,6 +26,17 @@ const Order = require('./models/orderModel')
 const ForgotPass =require('./models/forgotPassModel')
 const History =require('./models/reportModel')
 
+// const privateKey= fs.readFileSync('-server.key');
+// const certificate = fs.readFileSync('server.cert');
+
+
+const logStream = fs.createWriteStream(
+    path.join(__dirname,'access.log'),
+    {flags:'a'}
+    );
+
+app.use(helmet());
+app.use(morgan('combined',{stream:logStream}))
 app.use(cors());
 
 app.use(bodyParser.json({extended: false}))
@@ -30,7 +53,7 @@ const purchaseRoutes = require('./routes/purchaseRoutes')
 
 const premiumRoutes = require('./routes/premiumRoutes')
 
-const forgotPassRoutes = require('./routes/forgotPassRoutes')
+const forgotPassRoutes = require('./routes/forgotPassRoutes');
 
 
 
@@ -60,6 +83,8 @@ User.hasMany(History);
 
 sequelize.sync()
 .then(()=>{
-    app.listen(3000)
+    // https
+    // .createServer({key:privateKey,cert:certificate},app).listen(process.env.PORT || 3000)
+    app.listen(process.env.PORT || 3000)
 
 }).catch(err=>console.log(err))

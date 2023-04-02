@@ -7,6 +7,7 @@ const S3Service = require('../services/S3Services')
 
 
 
+
 exports.getExpenses = async (req,res) => {
     try{
         const page= +req.query.page || 1;
@@ -15,14 +16,17 @@ exports.getExpenses = async (req,res) => {
         console.log("OOOOOOO",itemsPerPage)
         
         const download = await UserService.getDownloadHistory(req)
-        const expense= await req.user.getExpenses()
+        // const expense= await req.user.getExpenses()
         const user= await req.user
         let expenseCount = await Expense.count({where:{userId:user.id}})
-        console.log(expenseCount)
-        const expenseToBeDisplayed =await Expense.findAll({
+        
+        const expenseToBeDisplayed = await req.user.getExpenses({
             offset: (page-1)*itemsPerPage,
-            limit:itemsPerPage
-        },{where:{userId:user.id}})
+            limit:itemsPerPage,
+        });
+        
+        console.log(">>>>>>",expenseToBeDisplayed);
+        console.log(user.id)
         
         return res.status(200).json({expenseData: expenseToBeDisplayed,
             premium:user.premiumUser,
