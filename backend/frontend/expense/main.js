@@ -19,7 +19,7 @@ itemsPerPage.addEventListener('click',getExpense);
 window.addEventListener('DOMContentLoaded',async ()=>{
     try{
         let page=1
-        let getReq =await axios.get(`http://localhost:3000/expense?page=${page}&items=${itemsPerPage.value}`, {headers: {'Authorization': token}})
+        let getReq =await axios.get(`http://52.22.33.133:3000/expense?page=${page}&items=${itemsPerPage.value}`, {headers: {'Authorization': token}})
         if(getReq.data.premium){
             document.getElementById('myForm').innerHTML+="<br><br>You are a Premium user "
             document.getElementById('myForm').appendChild(leaderBtn)
@@ -45,7 +45,7 @@ window.addEventListener('DOMContentLoaded',async ()=>{
 })
 async function getExpense(page){
     try{
-        let getReq =await axios.get(`http://localhost:3000/expense?page=${page}&items=${itemsPerPage.value}`, {headers: {'Authorization': token}})
+        let getReq =await axios.get(`http://52.22.33.133:3000/expense?page=${page}&items=${itemsPerPage.value}`, {headers: {'Authorization': token}})
         const pageData = getReq.data;
         console.log(pageData)
         expenseCount= pageData.length;
@@ -122,7 +122,7 @@ async function addExpense(e){
         
         // else{
             
-            let postReq= await axios.post("http://localhost:3000/expense/addExpense",obj, {headers: {'Authorization': token}})
+            let postReq= await axios.post("http://52.22.33.133:3000/expense/addExpense",obj, {headers: {'Authorization': token}})
             if(postReq.data.message){
                 alert(postReq.data.message)
             }
@@ -205,7 +205,7 @@ async function editExpense(obj){
             category.value=obj.category;
 
             
-            await axios.delete(`http://localhost:3000/expense/deleteExpense/${obj.id}`)
+            await axios.delete(`http://52.22.33.133:3000/expense/deleteExpense/${obj.id}`)
             
             const child=document.getElementById(obj.id)
                 
@@ -225,7 +225,7 @@ async function deleteExpense(key){
     try{
         if(confirm("Press OK to confirm delete")){
             
-            const delReq = await axios.delete(`http://localhost:3000/expense/deleteExpense/${key}`,{headers: {'Authorization': token}})
+            const delReq = await axios.delete(`http://52.22.33.133:3000/expense/deleteExpense/${key}`,{headers: {'Authorization': token}})
                 
                 console.log(delReq)
                 
@@ -251,7 +251,7 @@ leaderBtn.appendChild(document.createTextNode('Leaderboard'))
 leaderBtn.onclick =async function leaderBoard() {
     try{
        
-        const resp =await axios.get('http://localhost:3000/premium/leaderboard', {headers: {'Authorization': token}})
+        const resp =await axios.get('http://52.22.33.133:3000/premium/leaderboard', {headers: {'Authorization': token}})
         // console.log(resp.data[0].name)
         document.getElementById('myForm').innerHTML+='<br><br><ol id="lBoard"><h4>Leaderboard</h4></ol>'
         const lboard=document.getElementById('lBoard')
@@ -278,14 +278,14 @@ leaderBtn.onclick =async function leaderBoard() {
 document.getElementById('rzp-btn1').onclick = async function(e) {
  try{
     
-    let response = await axios.get("http://localhost:3000/purchase/premium", {headers: {'Authorization': token}})
+    let response = await axios.get("http://52.22.33.133:3000/purchase/premium", {headers: {'Authorization': token}})
     console.log("RazorPAY",response)
     let options = {
     "key": response.data.key_id,
     "orderId": response.data.order.id,
     "amount":response.data.order.amount,
     "handler": async function(response) {
-        await axios.post("http://localhost:3000/purchase/update-transaction",{
+        await axios.post("http://52.22.33.133:3000/purchase/update-transaction",{
             orderId: options.orderId,
             payment_id: response.razorpay_payment_id,
         },{headers: {'Authorization': token}})
@@ -305,7 +305,7 @@ e.preventDefault;
 rzp1.on('payment.failed',async function(){
     try{
         
-        const resp=await axios.post("http://localhost:3000/purchase/update-transaction",{
+        const resp=await axios.post("http://52.22.33.133:3000/purchase/update-transaction",{
                 "orderId":response.data.order.id,
                 "payment_id":null
             },{headers:{"Authorization":token} })
@@ -341,7 +341,7 @@ reportBtn.style.marginRight='5px'
 reportBtn.onclick = async function expenseReport(){
     try{
         
-        const response = await axios.get('http://localhost:3000/expense/download', { headers: {"Authorization" : token} })
+        const response = await axios.get('http://52.22.33.133:3000/expense/download', { headers: {"Authorization" : token} })
         if(response.status==200){
             console.log('resp',response)
             displayDownloadHistory(response.data.downloaded)
