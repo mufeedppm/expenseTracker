@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Expense Tracker</h1>
+    <header class="centered">
+            <h1>Expense Tracker</h1>
     </header>
 
     <main>
         <section class="container">
-            <form  method="POST" id="signUpForm" name="signUpForm">
-                <h5 style="color: #ccc;">Sign up</h5>
+            <form  method="POST" id="loginForm" name="loginForm">
+                <h5 style="color: #ccc;">Login</h5>
                 <!-- <div class="centered"> -->
-                    <label for="name">Name</label>
-                    <input type="text" name="name" id="name" required>
+                    <!-- <label for="name">Username</label>
+                    <input type="text" name="name" id="name" required> -->
                 <!-- </div> -->
                 
                 <!-- <div class="centered">  -->
@@ -32,9 +32,10 @@
                     <input type="password" name="password" id="password" required>
                 <!-- </div> -->
                 <!-- <div class="centered"> -->
-                    <button type="submit" class="btn">Sign up</button>
+                    <button type="submit" class="btn">Login</button>
                 <!-- </div> -->
-              <br>  Already a user?<a href="../login/index.html" class=" btn btn-sm" > Login</a>
+              <br><br>  New user?Click below to sign up<a href="../signup/signup.html" class=" btn btn-sm" >Sign up</a>
+              <a href="../forgotPassword/forgot.html">Forgot Password</a>
             </form>
         </section>
         
