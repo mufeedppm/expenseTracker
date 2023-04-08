@@ -14,7 +14,7 @@ const express = require('express')
 
 const cors = require('cors');
 
-const helmet = require("helmet");
+// const helmet = require("helmet");
 
 
 
@@ -35,11 +35,14 @@ const logStream = fs.createWriteStream(
     {flags:'a'}
     );
 
-app.use(helmet());
+// app.use(helmet());
 app.use(morgan('combined',{stream:logStream}))
 app.use(cors());
 
-app.use(bodyParser.json({extended: false}))
+app.use(bodyParser.json());
+
+
+// app.use(express.json()); 
 
 const sequelize = require('./database');
 
@@ -56,7 +59,6 @@ const premiumRoutes = require('./routes/premiumRoutes')
 const forgotPassRoutes = require('./routes/forgotPassRoutes');
 
 
-
 app.use('/user',signUpRoutes);
 
 app.use('/user',loginRoutes)
@@ -69,10 +71,19 @@ app.use('/premium',premiumRoutes)
 
 app.use('/password',forgotPassRoutes)
 
-app.use((req,res)=>{
-    
-    res.sendFile(path.join(__dirname,`frontend/${req.url}`))
+// app.use((req,res)=>{
+//     // res.setHeader( 'Content-Security-Policy', "script-src 'self' cdnjs.cloudflare.com checkout.razorpay.com cdn.jsdelivr.net" )
+//     res.sendFile(path.join(__dirname,`frontend/${req.url}`))
+// })
+app.use((req, res) => {
+    // res.setHeader( 'Content-Security-Policy', "script-src 'self' cdnjs.cloudflare.com checkout.razorpay.com cdn.jsdelivr.net" )
+
+    res.sendFile(path.join(__dirname, `frontend/${req.url}`));
 })
+
+
+
+
 
 Expense.belongsTo(User)
 User.hasMany(Expense);
@@ -90,6 +101,6 @@ sequelize.sync()
 .then(()=>{
     // https
     // .createServer({key:privateKey,cert:certificate},app).listen(process.env.PORT || 3000)
-    app.listen(process.env.PORT || 3000)
+    app.listen(3000)
 
 }).catch(err=>console.log(err))
