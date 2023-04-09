@@ -1,7 +1,7 @@
 const Sib = require('sib-api-v3-sdk');
 const { v4: uuidv4 } = require('uuid');
 const sequelize = require('../database')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 
 const Forgot =  require('../models/forgotPassModel')

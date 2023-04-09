@@ -1,6 +1,6 @@
 const User = require('../models/userModel')
 
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 
 exports.postAddUser =async (req,res) => {
     try{
