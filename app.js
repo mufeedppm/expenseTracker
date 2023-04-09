@@ -1,8 +1,7 @@
 
 require('dotenv').config();
-const bodyParser = require('body-parser')
 
-// const https = require('https');
+const bodyParser = require('body-parser')
 
 const path = require('path');
 
@@ -71,19 +70,10 @@ app.use('/premium',premiumRoutes)
 
 app.use('/password',forgotPassRoutes)
 
-// app.use((req,res)=>{
-//     // res.setHeader( 'Content-Security-Policy', "script-src 'self' cdnjs.cloudflare.com checkout.razorpay.com cdn.jsdelivr.net" )
-//     res.sendFile(path.join(__dirname,`frontend/${req.url}`))
-// })
-app.use((req, res) => {
-    // res.setHeader( 'Content-Security-Policy', "script-src 'self' cdnjs.cloudflare.com checkout.razorpay.com cdn.jsdelivr.net" )
-    // res.setHeader('X-XSS-Protection: 0')
 
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, `frontend/${req.url}`));
 })
-
-
-
 
 
 Expense.belongsTo(User)
@@ -100,8 +90,6 @@ User.hasMany(History);
 
 sequelize.sync()
 .then(()=>{
-    // https
-    // .createServer({key:privateKey,cert:certificate},app).listen(process.env.PORT || 3000)
     app.listen(3000)
 
 }).catch(err=>console.log(err))
