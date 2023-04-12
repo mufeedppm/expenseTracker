@@ -72,7 +72,8 @@ app.use('/password',forgotPassRoutes)
 
 
 app.use((req, res) => {
-    res.sendFile(path.join(__dirname, `frontend/${req.url}`));
+    console.log(req.url)
+        res.sendFile(path.join(__dirname, `frontend/${req.url}`));
 })
 
 
