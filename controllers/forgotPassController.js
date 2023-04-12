@@ -43,7 +43,7 @@ exports.forgotPassword = async(req,res) => {
                 sender,
                 to: receivers,
                 subject:'Forgot Password',
-                htmlContent:`<a href="http://localhost:3000/password/resetpassword/${id}">Reset Password</a>`
+                htmlContent:`<a href="http://50.19.247.142:3000/password/resetpassword/${id}">Reset Password</a>`
             })
             t.commit()
             res.status(200).json({data:data})
@@ -77,7 +77,7 @@ exports.resetPassword = async(req,res) => {
             
             <body>
             <section class="container">
-            <form   id="forgotForm"  action="http://localhost:3000/password/updatepassword/${forgotId}" name="forgotForm">
+            <form   id="forgotForm"  action="http://50.19.247.142:3000/password/updatepassword/${forgotId}" name="forgotForm">
                 <h5 style="color: #ccc;">Forgot Password</h5>
                 
                 
