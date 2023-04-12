@@ -18,7 +18,7 @@ async function addUser(e){
         
         if(response.status==203){
             alert('user sign up successful')
-            window.location.href='./login.html'
+            window.location.href='./index.html'
         }
         else{
             alert(response.data.message);
