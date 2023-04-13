@@ -88,7 +88,7 @@ User.hasMany(ForgotPass);
 
 History.belongsTo(User)
 User.hasMany(History);  
-//checking cicd
+//checking cicd again
 
 sequelize.sync()
 .then(()=>{
