@@ -128,7 +128,7 @@ async function addExpense(e){
             }
             console.log(postReq)
             
-            if(itemsPerPage.value>(expenseList.children.length)){
+            if(itemsPerPage.value>=(expenseList.children.length)){
                 displayExpense(postReq.data.expenseData)
 
             }

@@ -10,10 +10,8 @@ const S3Service = require('../services/S3Services')
 
 exports.getExpenses = async (req,res) => {
     try{
-        const page= +req.query.page || 1;
+        const page= req.query.page || 1;
         const itemsPerPage=Number(req.query.items) ;
-       
-        console.log("OOOOOOO",itemsPerPage)
         
         const download = await UserService.getDownloadHistory(req)
         // const expense= await req.user.getExpenses()
@@ -128,3 +126,27 @@ exports.downloadExpense = async (req,res) =>{
 
     }
 }
+
+// exports.editExpense = async (req,res) =>{
+//     const t = await sequelize.transaction();
+//     try{
+ 
+        
+//         const resp = await Expense.findOne({
+//             where:{id:expId},
+//             transaction: t
+//         })
+        
+//         const response = await Expense.destroy({where:{id:expId},transaction: t})
+//         const user = await User.findOne({where:{id:resp.userId},transaction: t})
+//         console.log(user)
+//         const expenseSum = Number(user.totalExpense)-Number(resp.expense)
+//         await User.update({totalExpense: expenseSum},{where:{id:resp.userId},transaction: t})
+//         await t.commit()
+//         res.json({response:response})
+//     }catch(err){
+//         await t.rollback();
+//         res.status(500).json({success:false,Error:err})
+//         console.log(err)
+//     }
+// }

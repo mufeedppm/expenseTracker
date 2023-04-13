@@ -10,6 +10,7 @@ router.get('/',userAuth.authenticate,expenseController.getExpenses)
 
 router.get('/download',userAuth.authenticate,expenseController.downloadExpense)
 
+// router.put('/edit',userAuth.authenticate,expenseController.editExpense)
 
 router.post('/addExpense',userAuth.authenticate, expenseController.postAddExpense)
 
