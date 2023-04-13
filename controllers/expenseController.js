@@ -10,7 +10,7 @@ const S3Service = require('../services/S3Services')
 
 exports.getExpenses = async (req,res) => {
     try{
-        const page= req.query.page || 1;
+        const page= +req.query.page || 1;
         const itemsPerPage=Number(req.query.items) ;
         
         const download = await UserService.getDownloadHistory(req)
